@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Update Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isUpdating" text-center style="height:100%; width:100%; z-index:9999; position: fixed; background:#ebb70c;">
+    <ion-spinner style="margin-top: 50%"></ion-spinner><br/>
+    <ion-text>Please Wait ...</ion-text>
+  </div>
+  <ion-card>
+    <ion-card-header>Update Profile</ion-card-header>
+    <ion-card-content>
+      <form #form="ngForm" (ngSubmit)="update()" >
+        <ion-item style="font-family: Stylish">
+          <ion-label style="font-family: Stylish">Name</ion-label>
+          <ion-input style="font-family: Stylish" type="text" placeholder="Name" [(ngModel)]="name" name="name" value=""></ion-input>
+        </ion-item>
+
+        <ion-item style="font-family: Stylish">
+          <ion-label style="font-family: Stylish">Username</ion-label>
+          <ion-input style="font-family: Stylish" type="text" placeholder="Username" [(ngModel)]="username" name="username" value=""></ion-input>
+        </ion-item>
+
+        <ion-item style="font-family: Stylish">
+          <ion-label style="font-family: Stylish">Email</ion-label>
+          <ion-input style="font-family: Stylish" type="email" placeholder="Email" [(ngModel)]="email" name="email" value=""></ion-input>
+        </ion-item>
+
+        <ion-item style="font-family: Stylish">
+          <ion-label style="font-family: Stylish">Level</ion-label>
+          <ion-select  [(ngModel)]="level" name="level" style="font-family: Stylish">
+            <ion-select-option value="100 Level">100 Level</ion-select-option>
+            <ion-select-option value="200 Level">200 Level</ion-select-option>
+            <ion-select-option value="300 Level">300 Level</ion-select-option>
+            <ion-select-option value="400 Level">400 Level</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item style="font-family: Stylish">
+          <ion-label style="font-family: Stylish">Phone Number</ion-label>
+          <ion-input style="font-family: Stylish" type="text" placeholder="Phone Numbers" name="phone_number" [(ngModel)]="phone_number"></ion-input>
+        </ion-item>
+
+        <ion-item style="font-family: Stylish">
+          <ion-label style="font-family: Stylish">Department</ion-label>
+          <ion-input style="font-family: Stylish" type="text" placeholder="Department" name="department" [(ngModel)]="department"></ion-input>
+        </ion-item>
+
+          <ion-button expand="full" type="submit" [disabled]="form.invalid">Update</ion-button>
+        
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

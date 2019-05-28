@@ -1,0 +1,110 @@
+<ion-content>
+  <ion-slides pager="true" [options]="slideOpts">
+    
+    <ion-slide class="animated bounceInRight" text-center>
+      <div style="color: brown; position: fixed;left: 0px; top: 10px; width:100%">
+          <ion-button (click)="skip()">Skip</ion-button>
+      </div>
+      <div>
+          <h1 style="color: brown">Welcome To TTA</h1>
+          <p style="font-family: Stylish">Test App for general courses 100-400</p>
+      </div>
+    </ion-slide>
+
+    <ion-slide>
+        <div style="color: brown; position: fixed;left: 0px; top: 10px; width:100%">
+          <ion-button (click)="skip()">Skip</ion-button>
+          <h1>How To Get Started</h1>
+          <ion-list>
+            <ion-list-header>Starting a test</ion-list-header>
+            <ion-item>Login or Register</ion-item>
+            <ion-item>Click Start Test Button</ion-item>
+            <ion-item>Select your level</ion-item>
+            <ion-item>Select a course</ion-item>
+            <ion-item>Start test</ion-item>
+          </ion-list>
+
+          <ion-list>
+            <ion-list-header>Reporting Errors?Issues</ion-list-header>
+            <ion-item>Login or Register</ion-item>
+            <ion-item>Click Side meenu</ion-item>
+            <ion-item>Select select feedback</ion-item>
+            <ion-item>Fill in your name and message</ion-item>
+            <ion-item>Send Feedback</ion-item>
+          </ion-list>
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <div style="color: brown; position: fixed;left: 0px; top: 10px; width:100%">
+          <ion-button (click)="skip()">Skip</ion-button>
+          <h1>Click on Start Test Button</h1>
+          <ion-list>
+            <ion-item>
+              <ion-card>
+                  <img src="assets/images/home.jpg"/>
+              </ion-card>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <div style="color: brown; position: fixed;left: 0px; top: 10px; width:100%">
+          <ion-button (click)="skip()">Skip</ion-button>
+          <h1>Select Level</h1>
+          <ion-list>
+            <ion-item>
+              <ion-card>
+                  <img src="assets/images/levels.jpg"/>
+              </ion-card>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <div style="color: brown; position: fixed;left: 0px; top: 10px; width:100%">
+          <ion-button (click)="skip()">Skip</ion-button>
+          <h1>Select a Course</h1>
+          <ion-list>
+            <ion-item>
+              <ion-card>
+                  <img src="assets/images/courses.jpg"/>
+              </ion-card>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <div style="color: brown; position: fixed;left: 0px; top: 10px; width:100%">
+          <ion-button (click)="skip()">Skip</ion-button>
+          <h1>Start the test</h1>
+          <ion-list>
+            <ion-item>
+              <ion-card>
+                  <img src="assets/images/questions.jpg"/>
+              </ion-card>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-slide>
+
+    <ion-slide>
+        <div *ngIf="isloggedIn">
+          <ion-button (click)="openPage('/home')">Home</ion-button>
+        </div>
+      <div *ngIf="!isloggedIn">
+        <ion-button (click)="openPage('/login')">Login</ion-button>
+        <ion-button (click)="openPage('/register')">Register</ion-button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    Developed by toykam
+  </ion-toolbar>
+</ion-footer>

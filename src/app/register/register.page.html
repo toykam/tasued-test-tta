@@ -1,0 +1,42 @@
+<ion-content ion-padding>
+    <div *ngIf="registring" text-center style="height:100%; width:100%; z-index:9999; position: fixed; background:#ebb70c;">
+      <ion-spinner style="margin-top: 50%"></ion-spinner><br/>
+      <ion-text>Registration In Progress ...</ion-text><br/>
+      <ion-text style="font-family: Stylish">If taking too long, please confirm your data connection</ion-text>
+    </div>
+    <div text-center>
+      <h3>Create account!</h3>
+      <img class="animated slow bounceInRight" style="width: 80px; height: 80px; border-radius:50%; margin-top: 20px;" src="./assets/images/icon.png">
+    </div>
+  <ion-card class="form-inputs" class="animated zoomIn">
+      <form  #form="ngForm" (ngSubmit)="register()">
+        <ion-grid>
+          <ion-row color="primary" justify-content-center>
+            <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+              <div ion-padding>
+                <ion-item>
+                  <ion-input  name="name" type="text" placeholder="Name" [(ngModel)]="name" required></ion-input>
+                </ion-item>
+                <ion-item-divider></ion-item-divider>
+                <ion-item>
+                  <ion-input name="email" type="email" placeholder="example@domain.com" [(ngModel)]="email" required></ion-input>
+                </ion-item>
+                <ion-item-divider></ion-item-divider>
+                <ion-item>
+                  <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="password" required></ion-input>
+                </ion-item>
+                <ion-item-divider></ion-item-divider>
+              </div>
+              <div ion-padding>
+                <ion-button type="submit" [disabled]="form.invalid" expand="full"  color="primary">Register</ion-button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+      <div text-center ion-padding>
+        <ion-button expand="full" routerLink="/login" color="primary">I have an account <a routerLink='/login' style="color: blue">Login</a></ion-button>
+      </div>
+  </ion-card>
+  <ion-card *ngIf="registring" ion-padding>Registration In Progress ... <ion-spinner name="crescent"></ion-spinner></ion-card>  
+</ion-content>

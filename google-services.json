@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "541399707599",
+    "firebase_url": "https://tasued-test-app-tta.firebaseio.com",
+    "project_id": "tasued-test-app-tta",
+    "storage_bucket": "tasued-test-app-tta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541399707599:android:00288817ad04a82e",
+        "android_client_info": {
+          "package_name": "com.toykam.tta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541399707599-jt8qmt2282q5k6jd6gbqjekpdigpm1q1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeNhXC7RKhbUVYvPob7rWVsDP65x9KpcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541399707599-jt8qmt2282q5k6jd6gbqjekpdigpm1q1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-4504479228598196~1152083115"
+    }
+  ],
+  "configuration_version": "1"
+}

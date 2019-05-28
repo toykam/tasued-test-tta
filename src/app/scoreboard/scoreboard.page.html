@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Leader Board</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="loading" text-center style="height:100%; width:100%; z-index:9999; position: fixed; background:#ebb70c;">
+      <ion-spinner style="margin-top: 50%"></ion-spinner><br/>
+      <ion-text>Fetching Leaders ...</ion-text>
+    </div>
+  <div>
+    <ion-list *ngIf="leaders" inset="true" color="primary">
+      <ion-list-header>Top {{ leaders.length }} Users</ion-list-header>
+      <ion-item *ngFor="let leader of leaders">
+        <ion-label>
+          <h3>{{ leader.name }}</h3>
+        </ion-label>
+        <ion-label slot="end" text-right>
+          <p>{{ leader.point }} points</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

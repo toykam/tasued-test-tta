@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Select Level</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content ion-padding>
+    <div *ngIf="loading" text-center style="height:100%; width:100%; z-index:9999; position: fixed; background:#ebb70c;">
+      <ion-spinner style="margin-top: 50%"></ion-spinner><br/>
+      <ion-text>Loading ...</ion-text>
+    </div>
+  {{ msg }}
+  <ion-grid>
+    <ion-row *ngFor="let level of levels">
+      <ion-col class="animated bounceInRight">
+        <ion-card (click)="openPage('/course/'+level.id, level.id)" color="primary">
+          <ion-card-header>
+            {{ level.name }}
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    Developed by toykam
+  </ion-toolbar>
+</ion-footer>

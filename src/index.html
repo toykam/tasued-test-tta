@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Ionic App</title>
+  <title>Tasued Test App (TTA)</title>
 
   <base href="/" />
 
@@ -11,15 +11,48 @@
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+  <link rel="icon" type="image/png" href="assets/images/icon.png" />
 
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link href="https://fonts.googleapis.com/css?family=Stylish" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Maiden+Orange&display=swap" rel="stylesheet">
 </head>
+<style>
+  @font-face {
+    font-family: 'Hanalei Fill';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Hanalei Fill'), local('HanaleiFill-Regular'), url(https://fonts.googleapis.com/css?family=Maiden+Orange&display=swap) format('woff2');
+  }
 
+  :root {
+    --ion-font-family: 'Maiden Orange';
+  }
+  :root[mode=md] {
+    --ion-font-family: 'Maiden Orange';
+  }
+  :root[mode=ios] {
+    --ion-font-family: 'Maiden Orange';
+  }
+
+  ion-label {
+    --font-family: 'Stylish', Stylish !important;
+  }
+  </style>
 <body>
   <app-root></app-root>
 </body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138047958-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-138047958-1');
+</script>
 
 </html>

@@ -1,0 +1,30 @@
+ion-slide {
+    height: 100%;
+    background: #fac002;
+}
+
+ion-content {
+    background: #feeaab;
+}
+
+ion-slides, ion-item, ion-list {
+    background: #fac002;
+    height: 100%;
+}
+
+ion-list, ion-item {
+    background: #fac002 !important;
+}
+
+ion-toolbar {
+    --background: brown;
+    --color: #feeaab;
+}
+
+img {
+    height: 300px;
+}
+
+ion-card {
+    background: transparent !important;
+}

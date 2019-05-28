@@ -1,0 +1,25 @@
+ion-icon {
+    font-size:5em;
+}
+
+ion-col {
+    --color: #feeaab; 
+}
+
+ion-toolbar {
+    --background: brown;
+    --color: #feeaab;
+}
+
+ion-content, ion-item, ion-list {
+    --background: rgb(248, 231, 175);
+}
+
+.custom-skeleton ion-skeleton-text {
+    line-height: 13px;
+}
+
+.custom-skeleton ion-skeleton-text:last-child {
+    margin-bottom: 5px;
+}
+

@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content ion-padding>
+  <div id="content" ion-padding>
+    <div id="profile-info">
+      <img id="profile-image" src="/assets/images/icon.png">
+      <h3 id="profile-name" *ngIf="userInfo">{{ userInfo.name }}</h3>
+    </div>
+    <ion-list ion-padding inset="true">
+      <ion-list-header>Other Detail</ion-list-header>
+      <div ion-padding style="font-family: Stylish" *ngIf="userInfo">
+        <ion-item style="font-family: Stylish">Email <span slot="end">{{ userInfo.email }}</span></ion-item>
+        <ion-item style="font-family: Stylish">Phone number <span slot="end">{{ userInfo.phone_number }}</span></ion-item>
+        <ion-item style="font-family: Stylish">Department <span slot="end">{{ userInfo.department }}</span></ion-item>
+        <ion-item style="font-family: Stylish">Level <span slot="end">{{ userInfo.level }}</span></ion-item>
+      </div>
+      <ion-button color='primary' routerLink='/update' style="background: #feeaab" expand="full">Update profile</ion-button>
+    </ion-list>
+
+    <!-- <ion-list ion-padding>
+      <ion-list-header>Activity</ion-list-header>
+      <ion-item ng-repeat="post in posts">
+        
+      </ion-item>
+    </ion-list> -->
+
+    <ion-list ion-padding inset="true" style="background: #feeaab;">
+      <ion-list-header>Credit</ion-list-header>
+      <div ion-padding *ngIf="userCredit">
+        <ion-item style="font-family: Stylish">Balance <span slot="end">{{ userCredit.balance }}</span></ion-item>
+        <ion-item style="font-family: Stylish">Recharge Card <span slot="end">{{ (userCredit.balance/200)*100 }}</span></ion-item>
+      </div>
+    </ion-list>
+
+    <ion-list ion-padding inset="true">
+      <ion-list-header>Test History</ion-list-header>
+      <div *ngIf="deleting">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+      </div>
+      <div *ngIf="!testHistory">
+        <p class="font-family: Stylish">Swipe left or right to see more options</p>
+        <div class="ion-padding custom-skeleton">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </div>
+      </div>
+      <ion-card ion-padding *ngFor="let test of testHistory">
+        <ion-item-sliding style="font-family: Stylish" *ngIf="!deleting">
+          <ion-item-options side="start" style="font-family: Stylish">
+            <ion-item-option (click)="deleteTest(test)" color="danger">
+              <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+      
+          <ion-item style="font-family: Stylish">
+            <ion-label>{{ test.course }}<span style="float: right">{{ test.score }}</span></ion-label>
+          </ion-item>
+      
+          <ion-item-options side="end" style="font-family: Stylish">
+            <ion-item-option style="font-family: Stylish" color="primary" (click)="openHistory(test)">
+              <ion-icon name="eye" slot="icon-only"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-card>
+    </ion-list>
+  </div>
+      
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    Developed by toykam
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,43 @@
+ion-content{
+    --background: brown;
+    // --background: url('/assets/images/bg_form.jpg');
+    --color: #feeaab;
+}
+
+ion-item{
+    --background: transparent;
+}
+
+ion-input {
+    --background: transparent;
+    border-bottom-color:brown;
+    color: #feeaab;
+    width: 20%;
+    --font-family: Stylish;
+}
+
+ion-input::placeholder {
+    color:#feeaab;
+}
+
+ion-item-divider {
+    background: transparent;
+    border: 0px;
+}
+
+ion-button {
+    --background: brown;
+}
+
+a{
+    color: rgb(14, 14, 243);
+    text-decoration: none;
+}
+
+.form-inputs {
+    margin-top: 50px;
+}
+
+p {
+    color: #feeaab;
+}
