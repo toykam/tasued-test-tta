@@ -13,7 +13,6 @@ import { AnalyticsFirebase } from '@ionic-native/analytics-firebase/ngx';
 export class CoursePage implements OnInit {
   level_id: any;
   courses: any;
-  url: string = "http://toykam.ml/level/courses/";
   msg: string = "Please wait ...";
   loading: any;
   constructor(
@@ -31,7 +30,7 @@ export class CoursePage implements OnInit {
     .catch(err => console.log('Error tracking view:', err));
     // this.configService.log_event('page_view', 'Course Page');
     this.level_id = this.route.snapshot.paramMap.get('id');
-    this.api.makeGetRequest(this.url+this.level_id).subscribe((res)=>{
+    this.api.makeGetRequest(this.configService.getApiUrl()+"level/courses/"+this.level_id).subscribe((res)=>{
       // this.configService.loading('Please wait');
       if(res){
         this.courses = res;

@@ -34,7 +34,7 @@ export class RegisterPage implements OnInit {
     this.registring = 1;
     this.admob.InterstitialAd();
     // this.configService.loading("Registration In Progress");
-    this.subscription = this.api.makeGetRequest('http://toykam.ml/ApiController/register?email='+this.email+'&password='+this.password+'&name='+this.name).subscribe((res: Response)=>{
+    this.subscription = this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/register?email='+this.email+'&password='+this.password+'&name='+this.name).subscribe((res: Response)=>{
       if(res){
         console.log(res);
         if(res.status == 1){

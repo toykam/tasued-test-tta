@@ -5,11 +5,13 @@ import { HttpClient } from '@angular/common/http';
 import { ApiService } from './../service/api.service';
 import { Component, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, Platform, LoadingController, AlertController } from '@ionic/angular';
 
 import { AdmobFreeService } from '../service/admobfree.service';
 
 import { AnalyticsFirebase } from '@ionic-native/analytics-firebase/ngx';
+import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +25,10 @@ export class HomePage {
   subscription: any;
   loggin_in: number;
   msg: string;
+  notifications: any = [];
+  notification_count: any = 0;
+  shownotification: any;
+  
   @ViewChild('myelement') myElem;
   constructor(
     private app: AppVersion,
@@ -35,37 +41,38 @@ export class HomePage {
     private appVersion: AppVersion,
     private analyticsFirebase: AnalyticsFirebase,
     public modalController: ModalController,
+    private plt: Platform,
+    private loadingController: LoadingController,
+    private alertController: AlertController,
   ){
+    
   }
 
   data: any;
 
   ngOnInit() {
-    this.analyticsFirebase.setCurrentScreen('Home')
-    .then(() => console.log('View successfully tracked'))
-    .catch(err => console.log('Error tracking view:', err));
-    // this.configService.log_event('page_view', 'Home Page');
-    this.admob.InterstitialAd();
-    this.storage.ready().then(()=>{
-      this.storage.get('user').then((val: User)=>{
-        if(val){
-          // alert("User Logged In");
-          this.userInfo = val;
-          // Set user id
-          this.analyticsFirebase.setUserId(this.userInfo.user_id)
-          .then(() => console.log('User id successfully set'))
-          .catch(err => console.log('Error setting user id:', err));
-        }else{
-          // alert("No Logged In user");
-          this.navCtr.navigateRoot('/login');
-        }
+    this.plt.ready().then(()=>{
+      this.getBakGroundNotification();
+      this.shownotification = false;
+      this.admob.InterstitialAd();
+      this.storage.ready().then(()=>{
+        this.storage.get('user').then((val: User)=>{
+          if(val){
+            this.userInfo = val;
+            this.getNotifications();
+          }else{
+            // alert("No Logged In user");
+            this.navCtr.navigateRoot('/login');
+          }
+        });
       });
-    });
 
-    this.appVersion.getVersionNumber().then((appvv:any)=>{
-      this.appv = appvv;
+      this.appVersion.getVersionNumber().then((appvv:any)=>{
+        this.appv = appvv;
+      });
+      this.admob.BannerAd();
     });
-    this.admob.BannerAd();
+    
   }
 
 
@@ -84,7 +91,7 @@ export class HomePage {
     // this.loggin_in = 1;
     this.admob.InterstitialAd();
     // this.configService.loading("Logging In");
-    this.subscription = this.api.makeGetRequest('http://toykam.ml/ApiController/login?email='+email+'&pass='+password).subscribe((res: any)=>{
+    this.subscription = this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/login?email='+email+'&pass='+password).subscribe((res: any)=>{
       if(res){
         if(res.status == 1){
           console.log(res);
@@ -115,6 +122,116 @@ export class HomePage {
       this.configService.toast("Internet Error ", "danger");
       this.ngOnInit();
     }
+  }
+
+  notification(){
+    if(this.shownotification == false){
+      this.shownotification = true;
+      this.getNotifications();
+    }else{
+      this.shownotification = false
+    }
+  }
+
+  async getNotifications(){
+    this.admob.InterstitialAd();
+    let loader = await this.loadingController.create({
+      message: 'Getting Notifications',
+    });
+    loader.present();
+    this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/get_notifications/'+this.userInfo.user_id).subscribe((res: any)=>{
+      // console.log(res);
+      if(res){
+        this.storage.ready().then((res: any)=>{
+          this.storage.set('notifications', res.notifications).then(()=>{
+            loader.dismiss();
+          });
+        });
+        this.notifications = res.notifications;
+        this.notification_count = this.notifications.length;
+        // console.log(this.notification_count);
+        loader.dismiss();
+      }else{
+        // this.notifications = [];
+        this.storage.ready().then((res: any)=>{
+          this.storage.get('notifications').then((res:any)=>{
+            if(res){
+              this.notifications = res;
+              this.notification_count = this.notifications.length;
+              loader.dismiss();
+            }else{
+              this.notifications = [];
+              this.notification_count = this.notifications.length;
+            }
+          });
+        });
+        loader.dismiss();
+      }
+    },
+    error=>{
+      loader.dismiss();
+
+    });
+  }
+
+  async viewNotification(note){
+    // console.log(note);
+    let alert = await this.alertController.create({
+      header: note.title,
+      message: note.message,
+      buttons: [
+        {
+          text: 'Mark as seen',
+          handler: () => {
+            let loader =  this.loadingController.create({
+              message: 'Marking as seen notification',
+            }).then((loader)=>{
+              loader.present();
+              this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/mark_as_seen/'+note.id).subscribe((res: any)=>{
+                // console.log(res);
+                this.getNotifications();
+              });
+              loader.dismiss();
+            });
+            // 
+          }
+        },{
+          text: 'open',
+          handler: () => {
+            this.openPage(note.url);
+          }
+        },
+        {
+          text: 'Close',
+          role: 'cancel',
+          handler: ()=>{
+
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  getBakGroundNotification(){
+    setInterval(()=>{
+      this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/get_notifications/'+this.userInfo.user_id).subscribe((res: any)=>{
+        // console.log(res);
+        if(res.notifications){
+          // console.log('there is notification');          
+          this.storage.ready().then((res: any)=>{
+            this.storage.set('notifications', res.notifications).then(()=>{
+            });
+          });
+          this.notifications = res.notifications;
+          this.notification_count = this.notifications.length;
+          // console.log(this.notification_count);
+          res.notifications.forEach((val)=>{
+            this.configService.notify(val.id, val.title, val.message);
+          })
+        }
+      });   
+    }, 10000);
   }
   
 }

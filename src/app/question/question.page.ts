@@ -31,7 +31,7 @@ export class QuestionPage implements OnInit {
   time: number;
   timeup: boolean = false;
   hidevalue: boolean;
-  subscribtion;
+  subscribtion: any;
   loading: any;
   userInfo: any;
   dataReturned: any;
@@ -63,7 +63,7 @@ export class QuestionPage implements OnInit {
     this.course = this.route.snapshot.paramMap.get('name');
     this.course_id = this.route.snapshot.paramMap.get('id');
     
-    this.subscribtion = this.api.makeGetRequest('http://toykam.ml/course/question/'+this.course_id).subscribe((res: any)=>{
+    this.subscribtion = this.api.makeGetRequest(this.configService.getApiUrl()+'course/question/'+this.course_id).subscribe((res: any)=>{
       // this.configService.loading("Getting questions from server");
       this.msg = "Loading Questions ...";
       if(res.length !== 0){
@@ -231,7 +231,7 @@ export class QuestionPage implements OnInit {
         "questions": this.questions,
         "score": this.score,
         "userInfo": this.userInfo,
-        "timeCredit": this.timeCredit,
+        "timeCredit": (this.timeCredit/2),
         "course": this.course,
         "page_name": "Result",
       }

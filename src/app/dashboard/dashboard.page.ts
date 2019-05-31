@@ -73,7 +73,7 @@ export class DashboardPage implements OnInit {
     this.deleting = true;
     // console.log(test.id);
     let data = {"uid": this.userInfo.user_id, "id": test.id};
-    let dt = this.api.makePostRequest("http://toykam.ml/ApiController/deleteTest", data).subscribe((data: any)=>{
+    let dt = this.api.makePostRequest(this.conf.getApiUrl()+"ApiController/deleteTest", data).subscribe((data: any)=>{
       this.conf.toast("Deleting From History", "primary");
       // console.log(data);
       if(data){

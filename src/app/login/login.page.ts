@@ -39,22 +39,19 @@ export class LoginPage implements OnInit {
     this.loggin_in = 1;
     this.admob.InterstitialAd();
     // this.configService.loading("Logging In");
-    this.subscription = this.api.makeGetRequest('http://toykam.ml/ApiController/login?email='+this.email+'&pass='+this.password).subscribe((res: any)=>{
-      console.log(res);
+    this.subscription = this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/login?email='+this.email+'&pass='+this.password).subscribe((res: any)=>{
       if(res){
         if(res.status == 1){
-          console.log(res);
-          // this.authState.next(true);
           this.configService.toast(res.msg, 'success');
           this.storage.set('user', res.detail).then(()=>{
             this.storage.set('user_credit', res.credit).then(()=>{
               this.storage.set('user_test_history', res.test_history).then(()=>{
                 this.navCtr.navigateRoot('home');
-                // this.authState.next(true);
+                this.loggin_in = 0;
               });
             });
           });        
-        this.loggin_in = 0;
+        
         }else{
           this.loggin_in = 0;
           this.msg = res.msg;

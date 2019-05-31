@@ -13,6 +13,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 export class ConfigService {
   userInfo: User;
   load: HTMLIonLoadingElement;
+  apiUrl: any = "http://toykam.ml/";
   constructor(
     private api: ApiService,
     private storage: Storage,
@@ -29,6 +30,10 @@ export class ConfigService {
         
       })
     });
+  }
+
+  getApiUrl(){
+    return this.apiUrl;
   }
   openPage(url: string, dir: string){
     if(dir == 'forward'){
@@ -76,36 +81,38 @@ export class ConfigService {
     .catch((error: any) => console.error(error));
   }
 
-  notify(){
+  notify(id, title, message){
     this.localNotifications.schedule({
-      id: 1,
-      text: 'Single ILocalNotification',
+      id: id,
+      title: title,
+      text: message,
       sound:  'file://sound.mp3',
-      data: { secret: 'key' }
+      icon: '/assets/images/icon.png',
+      data: { secret: message }
     });
     
     
     // Schedule multiple notifications
-    this.localNotifications.schedule([{
-       id: 1,
-       text: 'Multi ILocalNotification 1',
-       sound: 'file://sound.mp3',
-       data: { secret:'key' }
-      },{
-       id: 2,
-       title: 'Local ILocalNotification Example',
-       text: 'Multi ILocalNotification 2',
-       icon: 'http://example.com/icon.png'
-    }]);
+    // this.localNotifications.schedule([{
+    //    id: 1,
+    //    text: 'Multi ILocalNotification 1',
+    //    sound: 'file://sound.mp3',
+    //    data: { secret:'key' }
+    //   },{
+    //    id: 2,
+    //    title: 'Local ILocalNotification Example',
+    //    text: 'Multi ILocalNotification 2',
+    //    icon: 'http://example.com/icon.png'
+    // }]);
     
     
     // Schedule delayed notification
-    this.localNotifications.schedule({
-       text: 'Delayed ILocalNotification',
-       trigger: {at: new Date(new Date().getTime() + 3600)},
-       led: 'FF0000',
-       sound: null
-    });
+    // this.localNotifications.schedule({
+    //    text: 'Delayed ILocalNotification',
+    //    trigger: {at: new Date(new Date().getTime() + 3600)},
+    //    led: 'FF0000',
+    //    sound: null
+    // });
   }
 
 }

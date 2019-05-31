@@ -79,35 +79,40 @@ export class AppComponent {
       this.app.getVersionNumber().then((v) => {
         // alert(v);
         this.appv = v;
-        this.api.makeGetRequest("https://tasuedtest.000webhostapp.com/ApiController/getAppVersion").subscribe((apiv: any) => {
-          if(parseFloat(v) < parseFloat(apiv.version)){
-            this.alertCtr.create({
-              header: 'Notice',
-              subHeader: 'Update Notice',
-              message: "This Version is Out-dated. Do you want to update?",
-              cssClass: 'secondary',
-              buttons: [
-                {
-                  text: 'Yes',
-                  cssClass: 'primary',
-                  handler: () => {
-                    window.open("http://toykam.ml/download#latest");
-                  }
-                },
-                {
-                  text: 'No',
-                  cssClass: 'danger',
-                  role: 'cancel',
-                  handler: () => {
-
-                  }
-                }
-              ]
-            }).then((alert)=>{
-              alert.present();
-            })
+        this.api.makeGetRequest(this.conf.getApiUrl()+"ApiController/getAppVersion").subscribe((apiv: any) => {
+          if(parseFloat(v) < parseFloat(apiv.version) && apiv.required == 1){
+            window.open("http://toykam.ml/download#latest");
           }else{
+            if(parseFloat(v) < parseFloat(apiv.version) && apiv.required != 1){
+              this.alertCtr.create({
+                header: 'Notice',
+                subHeader: 'Update Notice',
+                message: "This Version is Out-dated. Do you want to update?",
+                cssClass: 'secondary',
+                buttons: [
+                  {
+                    text: 'Yes',
+                    cssClass: 'primary',
+                    handler: () => {
+                      window.open("http://toykam.ml/download#latest");
+                    }
+                  },
+                  {
+                    text: 'No',
+                    cssClass: 'danger',
+                    role: 'cancel',
+                    handler: () => {
+
+                    }
+                  }
+                ]
+              }).then((alert)=>{
+                alert.present();
+              })
+            }else{
+            }
           }
+          
         });
       });
 
@@ -208,7 +213,7 @@ exitApp() {
           text: 'Send Feedback',
           handler: (data) => {
             // console.log('Confirm Ok', data);
-            let sub = this.api.makeGetRequest("http://toykam.ml/ApiController/sendFeed?sender_name="+data.name+"&message="+data.message+"&version="+data.appv).subscribe((res: any) => {
+            let sub = this.api.makeGetRequest(this.conf.getApiUrl()+"ApiController/sendFeed?sender_name="+data.name+"&message="+data.message+"&version="+data.appv).subscribe((res: any) => {
               this.conf.toast("Sending your feedback", "primary");
               this.loading = 1;
               if(res){

@@ -2,9 +2,10 @@ import { Storage } from '@ionic/storage';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../service/api.service';
 import { ConfigService } from '../service/config.service';
-import { NavController, AlertController, ModalController } from '@ionic/angular';
+import { NavController, AlertController, ModalController, LoadingController } from '@ionic/angular';
 import { AdmobFreeService } from '../service/admobfree.service';
 import { TestPage } from '../test/test.page';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-challenge',
@@ -20,13 +21,13 @@ export class ChallengePage implements OnInit {
   userInfo: any;
   challenges: any;
   challenged: any;
-  challenge: any;
+  challenge: Observable<any>;
   score: any;
   timeCredit: any;
   course: any;
   dataReturned: any;
   showchallenge: boolean = true;
-  // showchallenge: boolean = false;
+  searching: boolean = false;
   constructor(
     private api: ApiService,
     private configService: ConfigService,
@@ -35,6 +36,7 @@ export class ChallengePage implements OnInit {
     private admob: AdmobFreeService,
     private alertCtr: AlertController,
     private modalController: ModalController,
+    public loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
@@ -59,13 +61,19 @@ initializeItems(){
 }
 
   getItems(ev: any) {
+    this.searching = true;
     // Reset items back to all of the items
     this.initializeItems();
 
     // set val to the value of the searchbar
     const val = ev.target.value;
-    this.api.makeGetRequest("http://toykam.ml/ApiController/searchUser/"+val).subscribe((res)=>{
-      this.users =  res;
+    this.api.makeGetRequest(this.configService.getApiUrl()+"ApiController/searchUser/"+val).subscribe((res)=>{
+      
+      if(res){
+        this.users =  res;
+        this.searching = false;
+      }
+      
     });
   }
 
@@ -80,6 +88,7 @@ initializeItems(){
           handler: () => {
             if(user1.user_id == user2.user_id){
               this.configService.toast("You can't challenge yourself", "danger");
+              this.getUsers();
             }else{
               this.loading = 1;
               this.msg = "Setting Ground ...";
@@ -88,7 +97,7 @@ initializeItems(){
                 'user1': user1,
                 'user2': user2,
               }
-              let makeC: any = this.api.makePostRequest("http://toykam.ml/ApiController/setChallenge", data).subscribe((res: any)=>{
+              let makeC: any = this.api.makePostRequest(this.configService.getApiUrl()+"ApiController/setChallenge", data).subscribe((res: any)=>{
                 // console.log(res);
                 if(res){
                   // console.log(res);
@@ -139,7 +148,7 @@ initializeItems(){
   getChallenges(user){
     // console.log(user);
     this.showchallenge = true;
-    this.subscription = this.api.makeGetRequest("http://toykam.ml/ApiController/getChallenges/"+user.user_id).subscribe((res: any)=>{
+    this.subscription = this.api.makeGetRequest(this.configService.getApiUrl()+"ApiController/getChallenges/"+user.user_id).subscribe((res: any)=>{
       // console.log(res);
       if(res){
         this.challenges = res.challenges;
@@ -157,7 +166,7 @@ initializeItems(){
 
   getUsers(){
     this.showchallenge = false;
-    this.subscription = this.api.makeGetRequest('http://toykam.ml/ApiController/getUsers').subscribe((res)=>{
+    this.subscription = this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/getUsers').subscribe((res)=>{
       // console.log(res);
       this.users = res;
       this.msg = "";
@@ -194,31 +203,39 @@ initializeItems(){
     return await modal.present();
   }
 
-  accept_challenge(challenge){
-    let cid = challenge.challenge_id;
-    this.configService.loading("Accepting Challenge");
-    let ac = this.api.makeGetRequest('http://toykam.ml/ApiController/accept_challenge/'+cid).subscribe((res: any)=>{
-      console.log(res);
+  async accept_challenge(challenge){
+    let cid: any = challenge.challenge_id;
+    let loader = await this.loadingController.create({
+      message: 'Accepting Challenge',
+    });
+    loader.present();
+    let ac = this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/accept_challenge/'+cid).subscribe((res: any)=>{
+      // console.log(res);
       if(res){
         if(res.status == 1){
+          loader.dismiss();
           this.challenge = res.challenge;
-          // this.openModal();
+          console.log(this.challenge);
           this.configService.toast(res.msg, "success");
+          this.openModal();
         }else{
+          console.log("Nothing was returned");
+          loader.dismiss();
           this.configService.toast(res.msg, "danger");
         }
-        
       }else{
+        loader.dismiss();
         this.configService.toast("Internet error occured", "danger");
       }
     }, error => {
+      loader.dismiss();
       this.configService.toast(error, "danger");
     });
   }
 
   decline_challenge(challenge, user){
     this.configService.loading("Declining Challenge");
-    let ac = this.api.makeGetRequest('http://toykam.ml/ApiController/decline_challenge/'+challenge.challenge_id+"/"+user.user_id).subscribe((res: any)=>{
+    let ac = this.api.makeGetRequest(this.configService.getApiUrl()+'ApiController/decline_challenge/'+challenge.challenge_id+"/"+user.user_id).subscribe((res: any)=>{
       console.log(res);
       if(res){
         this.challenges = res.challenges;
@@ -232,10 +249,9 @@ initializeItems(){
     });
   }
 
-  async viewChallenge(cha){
-    let cid = cha.challenge_id;
-    let uid = this.userInfo.user_id;
-    console.log(cha.challenge_id);
+  async viewChallenge(cha:any){
+    let cid:any = cha.challenge_id;
+    let uid:any = this.userInfo.user_id;
     let alert = await this.alertCtr.create({
       header: 'Chellenge Info',
       message: cha.name+' challenged you on '+cha.created_at,
@@ -243,13 +259,13 @@ initializeItems(){
         {
           text: 'Accept',
           handler: () => {
-            this.accept_challenge(cid);
+            this.accept_challenge(cha);
           }
         },
         {
           text: 'Decline',
           handler: () => {
-            this.decline_challenge(cid, uid);
+            this.decline_challenge(cha, uid);
           }
         },
         {

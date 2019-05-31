@@ -45,7 +45,7 @@ export class ResultPage implements OnInit {
       this.uploadingScore = true;
       this.conf.toast("we are adding this test to your test history", "primary");
       let data:any = {'test': JSON.stringify(this.questions), 'course':this.course, 'score': this.score};
-      let savet = this.api.makePostRequest("http://toykam.ml/ApiController/saveTest/"+this.userInfo.user_id, data).subscribe((data: any)=>{
+      let savet = this.api.makePostRequest(this.conf.getApiUrl()+"ApiController/saveTest/"+this.userInfo.user_id, data).subscribe((data: any)=>{
         if(data){
           console.log(data);
           if(data.status == 1){
@@ -75,7 +75,7 @@ export class ResultPage implements OnInit {
       if(this.scoreSaved){
         this.conf.toast("You already saved this score", "danger");
       }else{
-        let sub = this.api.makeGetRequest("http://toykam.ml/ApiController/addToCredit/"+this.userInfo.user_id+"/"+(5+this.timeCredit)).subscribe((res:any) => {
+        let sub = this.api.makeGetRequest(this.conf.getApiUrl()+"ApiController/addToCredit/"+this.userInfo.user_id+"/"+(5+this.timeCredit)).subscribe((res:any) => {
           if(res){
             if(res.status == 1){
               this.storage.set('user_credit', res.usercredit).then(()=>{

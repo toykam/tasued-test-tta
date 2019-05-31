@@ -98,11 +98,11 @@
     <plugin name="cordova-plugin-file-transfer" spec="^1.6.3" />
     <plugin name="cordova-plugin-zip" spec="^3.1.0" />
     <plugin name="cordova-plugin-appcenter-analytics" spec="^0.3.4" />
-    <plugin name="cordova-plugin-admob-free" spec="0.26.0">
-        <variable name="ADMOB_APP_ID" value="ca-app-pub-4504479228598196~1152083115" />
-    </plugin>
     <plugin name="cordova-plugin-local-notification" spec="0.9.0-beta.2" />
-    <engine name="ios" spec="4.5.5" />
     <plugin name="cordova-plugin-camera" spec="4.0.3" />
     <plugin name="cordova-plugin-file" spec="^4.3.3" />
+    <plugin name="cordova-plugin-admob-free" spec="0.27.0">
+        <variable name="ADMOB_APP_ID" value="ca-app-pub-4504479228598196~6115970842" />
+    </plugin>
+    <engine name="ios" spec="4.5.5" />
 </widget>

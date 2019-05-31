@@ -30,7 +30,7 @@ export class UpdatePage implements OnInit {
 
   ngOnInit() {
     // this.conf.log_event('page_view', 'Profile Edit');
-    this.admob.BannerAd();
+    this.admob.RewardVideoAd();
     this.isUpdating = false;
     this.storage.ready().then(()=>{
       this.storage.get('user').then((res: User) => {
@@ -49,7 +49,7 @@ export class UpdatePage implements OnInit {
     this.isUpdating = true;
     // this.conf.loading("Updating Profile");
     let data = "?name="+this.name+"&email="+this.email+"&phone_number="+this.phone_number+"&user_name="+this.username+"&department="+this.department+"&level="+this.level;
-    this.subscription = this.api.makeGetRequest("https://tasuedtest.000webhostapp.com/ApiController/update_profile/"+this.userInfo.user_id+data).subscribe((res:any)=>{
+    this.subscription = this.api.makeGetRequest(this.conf.getApiUrl()+"ApiController/update_profile/"+this.userInfo.user_id+data).subscribe((res:any)=>{
       if(res && res.status == 1){
         this.storage.ready().then(()=>{
           this.storage.set('user', res.info).then(()=>{

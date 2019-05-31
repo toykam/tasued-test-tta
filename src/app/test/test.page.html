@@ -1,12 +1,88 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>test</ion-title>
+    <ion-title>Challenge</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="!timeup" class="animated slow bounceInRight">
+  <section text-center>
+    <ion-grid>
+      <ion-row>
+        <ion-col style="display: flex">
+          <span><ion-icon name="timer" style="font-size: 25px; color: brown"></ion-icon></span>
+          <span style="float: right; font-size: 25px; color: brown">{{ time }} s</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
 
+  <div ion-padding *ngIf="questions" >
+    {{ msg }}
+    <ion-card style="font-family: 'Stylish', sans-serif;">
+      <ion-card-header>
+        <ion-card-subtitle style="font-family: 'Stylish', sans-serif;">Challenge Question <span>{{ q_n+1 }}</span></ion-card-subtitle>
+        <ion-card-title  style="font-family: 'Stylish', sans-serif;"><h4>{{ question }}</h4></ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content  style="font-family: 'Stylish', sans-serif;">
+        
+        <ion-list>
+          <ion-list-header>
+            <h5>Options</h5>
+          </ion-list-header>
+          <ion-item-group>
+            <ion-item (click)="checkAnswer(option1)" style="font-family: Stylish">{{ option1 }}</ion-item>
+            <ion-item-divider></ion-item-divider>
+            <ion-item (click)="checkAnswer(option2)" style="font-family: Stylish">{{ option2 }}</ion-item>
+            <ion-item-divider></ion-item-divider>
+            <ion-item (click)="checkAnswer(option3)" style="font-family: Stylish">{{ option3 }}</ion-item>
+            <ion-item-divider></ion-item-divider>
+            <ion-item (click)="checkAnswer(option4)" style="font-family: Stylish">{{ option4 }}</ion-item>
+          </ion-item-group>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
+
+<ion-content *ngIf="timeup">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            Your Score
+          </ion-card-header>
+          <ion-card-content>
+            <h2>{{ your_score }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            Opponent Score
+          </ion-card-header>
+          <ion-card-content>
+            <h2>{{ your_score }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button color="primary" href="/home" direction="forward">Home</ion-button>
+</ion-content>
+
+<ion-footer *ngIf="!timeup">
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button slot="start" (click)="prevQ()">Prev</ion-button>
+      <ion-button slot="end" background="success" (click)="nextQ()">Next</ion-button>
+      <ion-button slot="end" color="danger" (click)="complete_challenge()">Submit</ion-button>
+      <!-- <ion-button slot="end">Submit</ion-button> -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

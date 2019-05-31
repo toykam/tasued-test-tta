@@ -5,7 +5,7 @@ import {
   AdMobFreeInterstitialConfig,
   AdMobFreeRewardVideoConfig
 } from '@ionic-native/admob-free/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform, LoadingController } from '@ionic/angular';
  
  
 @Injectable()
@@ -15,19 +15,20 @@ export class AdmobFreeService {
   interstitialConfig: AdMobFreeInterstitialConfig = {
     isTesting: false,
     autoShow: true,
-    id: "ca-app-pub-4504479228598196/7018778966",
+    id: "ca-app-pub-4504479228598196/8905785711",
   };
  
   // Reward Video Ad's Configurations
   RewardVideoConfig: AdMobFreeRewardVideoConfig = {
     isTesting: false,
     autoShow: false,//,
-    id: "ca-app-pub-4504479228598196/8859964937",
+    id: "ca-app-pub-4504479228598196/3738710200",
   };
  
   constructor(
     private admobFree: AdMobFree,
-    public platform: Platform
+    public platform: Platform,
+    private loadingController: LoadingController,
   ) {
  
     platform.ready().then(() => {
@@ -48,7 +49,7 @@ export class AdmobFreeService {
       this.admobFree.rewardVideo.prepare()
         .then(() => {
           console.log("Video Ads Shown");
-          // this.re
+          this.admobFree.rewardVideo.show();
         });
  
     });
@@ -70,10 +71,10 @@ export class AdmobFreeService {
   }
  
  
-  BannerAd() {
+  async BannerAd() {
     let bannerConfig: AdMobFreeBannerConfig = {
       isTesting: false,
-      id: "ca-app-pub-4504479228598196/6751772384",
+      id: "ca-app-pub-4504479228598196/9672072478",
       autoShow: true,
     };
     this.admobFree.banner.config(bannerConfig);
@@ -86,26 +87,42 @@ export class AdmobFreeService {
     });
   }
  
-  InterstitialAd() {
+  async InterstitialAd() {
     //Check if Ad is loaded
+    let alert = await this.loadingController.create({
+      message: 'Displaying ads',
+    });
+    // alert.present();
     this.admobFree.interstitial.isReady().then(() => {
       //Will show prepared Ad
-      console.log("Interestial Is prepared");
       this.admobFree.interstitial.show().then(() => {
-        console.log("Interestial Ads Shown");
+        alert.dismiss();
+      }).catch(e => {
+        alert.dismiss();
       });
+    }).catch(e => {
+      alert.dismiss();
     });
   }
  
-  RewardVideoAd() {
+  async RewardVideoAd() {
     //Check if Ad is loaded
+    let alert = await this.loadingController.create({
+      message: 'Displaying ads',
+    });
+    alert.present();
     this.admobFree.rewardVideo.isReady().then(() => {
       //Will show prepared Ad
       this.admobFree.rewardVideo.show().then(() => {
-      })
-        .catch(e => console.log("show " + e));
-    })
-      .catch(e => console.log("isReady " + e));
+        alert.dismiss();
+      }).catch(e => {
+          // console.log("show " + e);
+          alert.dismiss();
+        });
+    }).catch(e => {
+        // console.log("isReady " + e);
+        alert.dismiss();
+      });
   }
  
  

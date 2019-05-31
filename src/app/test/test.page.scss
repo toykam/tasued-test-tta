@@ -1,0 +1,34 @@
+ion-icon {
+    --font-size: 20px;
+}
+
+ion-toolbar {
+    --background: brown;
+    --color: #feeaab;
+}
+
+ion-card-title {
+    --font-size: 20px;
+}
+
+ion-button {
+    --color: lightblue;
+}
+
+ion-item-group, ion-list {
+    --background: transparent;
+}
+
+ion-item-divider {
+    --background: transparent;
+    border: 0px;
+    height: 5px;
+}
+
+ion-content {
+    --background: rgb(248, 231, 175);
+}
+
+ion-item {
+    border-bottom: 3px solid rgb(250, 78, 78);
+}

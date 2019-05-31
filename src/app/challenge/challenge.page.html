@@ -19,14 +19,28 @@
     
     <ion-list *ngIf="!showchallenge">
       <ion-button expand="full" color="primary" (click)="getChallenges(userInfo)">Challenges</ion-button>
-      <ion-item *ngFor="let user of users">
-        <ion-label>
-          <h3>{{ user.name }} <small>{{ user.user_name }}</small></h3>
-        </ion-label>
-        <ion-label slot="end" text-right>
-          <ion-button color="primary" (click)="createChallenge(user, userInfo)">Challenge</ion-button>
-        </ion-label>
-      </ion-item>
+      <div *ngIf="!search">
+        <ion-item *ngFor="let user of users">
+          <ion-label>
+            <h3>{{ user.name }} <small>{{ user.user_name }}</small></h3>
+          </ion-label>
+          <ion-label slot="end" text-right>
+            <ion-button color="primary" (click)="createChallenge(user, userInfo)">Challenge</ion-button>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <div *ngIf="searching">
+        <div class="ion-padding custom-skeleton">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </div>
+        <div class="ion-padding custom-skeleton">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </div>
+      </div>
+        
     </ion-list>
     
     <div *ngIf="showchallenge">
@@ -53,7 +67,7 @@
         <ion-list-header style="background: brown">Users That Challenge You</ion-list-header>
         <ion-item *ngFor="let cha of challenges">
           <ion-label>
-           {{ cha.created_at | date }}
+           {{ cha.name }} challenged you
           </ion-label>
           <ion-item-option slot="end">
             <ion-button (click)="viewChallenge(cha)">View</ion-button>

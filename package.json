@@ -44,7 +44,7 @@
     "cordova-annotated-plugin-android": "1.0.4",
     "cordova-ios": "4.5.5",
     "cordova-play-services-version-adapter": "1.0.2",
-    "cordova-plugin-admob-free": "0.26.0",
+    "cordova-plugin-admob-free": "0.27.0",
     "cordova-plugin-analytics": "2.0.0",
     "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-appcenter-analytics": "^0.3.4",
@@ -109,9 +109,6 @@
       "cordova-plugin-firebase-analytics": {},
       "cordova-plugin-app-version": {},
       "cordova-plugin-analytics": {},
-      "cordova-plugin-admob-free": {
-        "ADMOB_APP_ID": "ca-app-pub-4504479228598196~1152083115"
-      },
       "cordova-android-play-services-gradle-release": {
         "PLAY_SERVICES_VERSION": "15.+"
       },
@@ -129,7 +126,10 @@
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-zip": {},
       "cordova-plugin-local-notification": {},
-      "cordova-plugin-camera": {}
+      "cordova-plugin-camera": {},
+      "cordova-plugin-admob-free": {
+        "ADMOB_APP_ID": "ca-app-pub-4504479228598196~6115970842"
+      }
     },
     "platforms": [
       "ios"

@@ -15,10 +15,15 @@ import { Storage } from '@ionic/storage';
 export class LevelPage implements OnInit {
   msg: string = "Please wait ...";
   levels: any;
-  url: string = "http://toykam.ml/level/all";
   subscription;
   loading: any;
-  constructor(private storage: Storage, private analyticsFirebase: AnalyticsFirebase, private admob: AdmobFreeService, private api: ApiService, private configService: ConfigService, private navCtr: NavController) { }
+  constructor(
+    private storage: Storage, 
+    private analyticsFirebase: AnalyticsFirebase, 
+    private admob: AdmobFreeService, 
+    private api: ApiService, 
+    private configService: ConfigService, 
+    private navCtr: NavController) { }
   
   ngOnInit() {
     this.loading = 1;
@@ -29,7 +34,7 @@ export class LevelPage implements OnInit {
     this.admob.BannerAd();
     this.admob.InterstitialAd();
     // this.configService.loading('Please Wait');
-    this.subscription = this.api.makeGetRequest(this.url).subscribe((res)=>{
+    this.subscription = this.api.makeGetRequest(this.configService.getApiUrl()+"level/all").subscribe((res)=>{
       this.loading = 0;
       this.levels = res;
       this.msg = "";
@@ -44,7 +49,7 @@ export class LevelPage implements OnInit {
   openPage(url, id){
     this.storage.ready().then(()=>{
       this.storage.set('level_id', id).then(()=>{
-        console.log(id);
+        // console.log(id);
         // this.
         this.configService.openPage(url, 'forward');
       });
