@@ -33,7 +33,7 @@ export class AppComponent {
     },
     // {
     //   title: 'Help',
-    //   url: '/',
+    //   url: '/help',
     //   icon: 'help'
     // },
     {
